@@ -22,7 +22,7 @@ function getDemonHTML(demon, currentPercent = 1, animation = 'fadeInUpBig') {
             </figure>
         </div>
         <div class="column">
-            <a href="https://pointercrate.com/demonlist/${demon.position}/"><h1 class="title" id="current-title">#${demon.position} - ${demon.name}</h1></a>
+            <a href="https://pointercrate.xyze.dev/demonlist/${demon.position}/"><h1 class="title" id="current-title">#${demon.position} - ${demon.name}</h1></a>
             <h2 class="subtitle"><i>by ${demon.publisher}</i></h2>
         </div>
         <div id="temp-column" class="column is-narrow">
@@ -173,10 +173,9 @@ clickEvent(domId('btn-start'), async btn => {
     preventLeaving = true;
 
     const mainList = getCheckbox('chk-main-list');
-    const extendedList = getCheckbox('chk-extended-list');
     const legacyList = getCheckbox('chk-legacy-list');
 
-    if (!mainList && !extendedList && !legacyList) {
+    if (!mainList && !legacyList) {
         bulmaToast.toast({
             message: 'Please select atleast one of the checkboxes',
             type: 'is-danger',
@@ -190,15 +189,14 @@ clickEvent(domId('btn-start'), async btn => {
 
     domId('demons').textContent = '';
 
-    if (!currentDemons.length || mainList !== lastCheckboxes[0] || extendedList !== lastCheckboxes[1] || legacyList !== lastCheckboxes[2]) {
+    if (!currentDemons.length || mainList !== lastCheckboxes[0] || legacyList !== lastCheckboxes[2]) {
         currentDemons = [
             ...(mainList ? (await axios.get(api + '/mainlist')).data : []), // 1 - 75
-            ...(extendedList ? (await axios.get(api + '/extendedlist')).data : []), // 76 - 150
             ...(legacyList ? (await axios.get(api + '/legacylist')).data : [])
         ];
     }
 
-    lastCheckboxes = [mainList, extendedList, legacyList];
+    lastCheckboxes = [mainList, legacyList];
 
     currentDemons.shuffle();
     nextDemon(true);
