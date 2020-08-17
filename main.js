@@ -1,5 +1,5 @@
 // free .tk domain I dont care im poor
-const api = 'https://matcool.tk';
+const api = 'https://pointercrate.xyze.dev/api/v1/demons/';
 
 let currentDemons = [];
 let currentDemon = 0;
