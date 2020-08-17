@@ -6,7 +6,7 @@ let currentDemon = 0;
 let currentPercent = 0;
 let playing = false;
 
-let lastCheckboxes = [true, true, false];
+let lastCheckboxes = [true, true];
 
 let preventLeaving = false;
 
