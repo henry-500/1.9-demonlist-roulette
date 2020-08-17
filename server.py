@@ -16,7 +16,7 @@ last_update = None
 
 async def get_demon_list(after: int=0, limit: int=100):
     async with ClientSession() as session:
-        async with session.get(f'https://pointercrate.com/api/v1/demons/?limit={limit}&after={after}') as resp:
+        async with session.get(f'https://pointercrate.xyze.dev/api/v1/demons/?limit={limit}&after={after}') as resp:
             if resp.status != 200: return
             data = await resp.json()
             return list(map(lambda demon: {
@@ -50,25 +50,17 @@ async def main_list(request):
         return web.Response(status=500)
     return json_response(cache[:75])
 
-async def extended_list(request):
-    if should_update():
-        await update_cache()
-    if not len(cache):
-        return web.Response(status=500)
-    return json_response(cache[75:150])
-
 async def legacy_list(request):
     if should_update():
         await update_cache()
     if not len(cache):
         return web.Response(status=500)
-    return json_response(cache[150:-1]) # i really hope god eater stays in last place
+    return json_response(cache[75:100]) # i really hope god eater stays in last place
 
 app = web.Application()
 
 app.add_routes([
     web.get('/mainlist', main_list),
-    web.get('/extendedlist', extended_list),
     web.get('/legacylist', legacy_list),
 ])
 
